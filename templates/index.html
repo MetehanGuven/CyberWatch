@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CyberWatch SOC Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <h1>🛡️ CyberWatch SOC Dashboard</h1>
+            <div class="header-controls">
+                <button id="refreshBtn" class="btn btn-primary">🔄 Yenile</button>
+                <button id="processLogsBtn" class="btn btn-success">📊 Örnek Log İşle</button>
+                <button id="clearAlertsBtn" class="btn btn-danger">🗑️ Temizle</button>
+            </div>
+        </header>
+
+        <!-- Stats Cards -->
+        <div class="stats-grid">
+            <div class="stat-card critical">
+                <div class="stat-icon">🚨</div>
+                <div class="stat-content">
+                    <h3 id="criticalCount">0</h3>
+                    <p>Critical Alerts</p>
+                </div>
+            </div>
+            <div class="stat-card high">
+                <div class="stat-icon">⚠️</div>
+                <div class="stat-content">
+                    <h3 id="highCount">0</h3>
+                    <p>High Alerts</p>
+                </div>
+            </div>
+            <div class="stat-card medium">
+                <div class="stat-icon">⚡</div>
+                <div class="stat-content">
+                    <h3 id="mediumCount">0</h3>
+                    <p>Medium Alerts</p>
+                </div>
+            </div>
+            <div class="stat-card low">
+                <div class="stat-icon">ℹ️</div>
+                <div class="stat-content">
+                    <h3 id="lowCount">0</h3>
+                    <p>Low Alerts</p>
+                </div>
+            </div>
+            <div class="stat-card total">
+                <div class="stat-icon">📈</div>
+                <div class="stat-content">
+                    <h3 id="totalCount">0</h3>
+                    <p>Total Alerts</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Charts Section -->
+        <div class="charts-section">
+            <div class="chart-container">
+                <h3>Alert Severity Distribution</h3>
+                <canvas id="severityChart"></canvas>
+            </div>
+            <div class="chart-container">
+                <h3>24 Hour Timeline</h3>
+                <canvas id="timelineChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Filters -->
+        <div class="filters">
+            <h3>🔍 Alert Filtreleri</h3>
+            <div class="filter-controls">
+                <select id="severityFilter">
+                    <option value="">Tüm Severity Seviyeleri</option>
+                    <option value="Critical">Critical</option>
+                    <option value="High">High</option>
+                    <option value="Medium">Medium</option>
+                    <option value="Low">Low</option>
+                </select>
+                <input type="number" id="limitFilter" placeholder="Limit (varsayılan: 50)" min="10" max="500" value="50">
+                <button id="applyFiltersBtn" class="btn btn-secondary">Filtrele</button>
+            </div>
+        </div>
+
+        <!-- Alerts Table -->
+        <div class="alerts-section">
+            <h3>🚨 Son Alerts</h3>
+            <div class="table-container">
+                <table id="alertsTable">
+                    <thead>
+                        <tr>
+                            <th>Zaman</th>
+                            <th>Kaynak IP</th>
+                            <th>Alert Tipi</th>
+                            <th>Severity</th>
+                            <th>Açıklama</th>
+                            <th>Durum</th>
+                        </tr>
+                    </thead>
+                    <tbody id="alertsTableBody">
+                        <tr>
+                            <td colspan="6" class="no-data">Alert'ler yükleniyor...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Alert Details Modal -->
+        <div id="alertModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h3>Alert Detayları</h3>
+                <div id="alertDetails"></div>
+            </div>
+        </div>
+
+        <!-- Status Messages -->
+        <div id="statusMessage" class="status-message"></div>
+    </div>
+
+    <footer>
+        <p>🛡️ CyberWatch SOC Dashboard - Developed for Security Operations</p>
+    </footer>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
